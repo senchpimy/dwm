@@ -1071,29 +1071,15 @@ focusin(XEvent *e)
 void
 focusmaster(const Arg *arg)
 {
-	Client *master;
+	Client *c;
 
-	if (selmon->nmaster > 1)
-		return;
-	if (!selmon->sel || (selmon->sel->isfullscreen && lockfullscreen))
+	if (selmon->nmaster < 1)
 		return;
 
-	master = nexttiled(selmon->clients);
+	c = nexttiled(selmon->clients);
 
-	if (!master)
-		return;
-
-	int i;
-	for (i = 0; !(selmon->tagset[selmon->seltags] & 1 << i); i++);
-	i++;
-
-	if (selmon->sel == master) {
-		if (selmon->tagmarked[i] && ISVISIBLE(selmon->tagmarked[i]))
-			focus(selmon->tagmarked[i]);
-	} else {
-		selmon->tagmarked[i] = selmon->sel;
-		focus(master);
-	}
+	if (c)
+		focus(c);
 }
 
 void
