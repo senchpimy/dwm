@@ -28,6 +28,10 @@ static char *colors[][3] = {
 
 static const char *const autostart[] = {
 	"wal", "-R",
+	"flameshot", NULL,
+	"blueman-manager",NULL,
+	"blueman-manager",NULL,
+	"xcompmgr",NULL,
 	NULL /* terminate */
 };
 
