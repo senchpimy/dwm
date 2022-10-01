@@ -24,14 +24,14 @@ static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+	[SchemeInv]  = { normbgcolor, normfgcolor, normbordercolor},
 };
 
 static const char *const autostart[] = {
 	"wal", "-R",
-	"flameshot", NULL,
-	"blueman-manager",NULL,
-	"blueman-manager",NULL,
-	"xcompmgr",NULL,
+//	"flameshot", NULL,
+//	"blueman-applet",NULL,
+//	"xcompmgr",NULL,
 	NULL /* terminate */
 };
 
@@ -47,7 +47,7 @@ static const Rule rules[] = {
 	{ "TelegramDesktop",    NULL,     NULL,           0,         1,          0,           0,        -1 },
 	{ "obs",                NULL,     NULL,           0,         1,          0,           0,        -1 },
 	{ "Lutris",             NULL,     NULL,           0,         1,          0,           0,        -1 },
-	{ "St",                 NULL,     NULL,           0,         0,          1,           1,        -1 },
+	{ "St",                 NULL,     NULL,           0,         0,          1,           0,        -1 },
 	{ NULL,                 NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 };
 
@@ -55,6 +55,9 @@ static const Rule rules[] = {
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const unsigned int stairpx   = 20;       /* depth of the stairs layout */
+static const int stairdirection     = 1;        /* 0: left-aligned, 1: right-aligned */
+static const int stairsamesize      = 1;        /* 1 means shrink all the staired windows to the same size */
 
 #include "gaplessgrid.c"
 #include "fibonacci.c"
@@ -75,6 +78,7 @@ static const Layout layouts[] = {
 	{ "HHH",      grid },
 	{ "|||",       tcl },
 	{ "|+|",      tatami },
+	{ "[S]",      stairs },
 	{ NULL,       NULL },
 };
 

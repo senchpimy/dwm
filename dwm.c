@@ -94,7 +94,7 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel }; /* color schemes */
+enum { SchemeNorm, SchemeInv, SchemeSel }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetSystemTray, NetSystemTrayOP, NetSystemTrayOrientation, NetSystemTrayOrientationHorz,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
@@ -301,6 +301,7 @@ static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void xrdb(const Arg *arg);
 static void zoom(const Arg *arg);
 static void tilewide(Monitor *m);
+static void stairs(Monitor *m);
 static void autostart_exec(void);
 static void centeredmaster(Monitor *m);
 static void centeredfloatingmaster(Monitor *m);
@@ -968,7 +969,12 @@ drawbar(Monitor *m)
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(tags[i]);
-		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
+		if (m == selmon) {
+			drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
+		}
+		else {
+			drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeInv : SchemeNorm]);
+		}
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
 		if (occ & 1 << i)
 			drw_rect(drw, x + boxw, 0, w - ( 2 * boxw + 1), boxw,
@@ -983,7 +989,7 @@ drawbar(Monitor *m)
 
 	if ((w = m->ww - tw - stw - x) > bh) {
 		if (m->sel) {
-			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
+			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeInv]);
 			drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
@@ -2141,6 +2147,43 @@ spawn(const Arg *arg)
 		fprintf(stderr, "dwm: execvp %s", ((char **)arg->v)[0]);
 		perror(" failed");
 		exit(EXIT_SUCCESS);
+	}
+}
+
+void
+stairs(Monitor *m)
+{
+	unsigned int i, n, h, mw, my;
+	unsigned int ox, oy, ow, oh; /* stair offset values */
+	Client *c;
+
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	if (n == 0)
+		return;
+
+	if (n > m->nmaster)
+		mw = m->nmaster ? m->ww * m->mfact : 0;
+	else
+		mw = m->ww;
+
+	for (i = my = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+		if (i < m->nmaster) {
+			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
+			resize(c, m->wx, m->wy + my, mw - (2 * c->bw), h - (2 * c->bw), 0);
+			if (my + HEIGHT(c) < m->wh)
+				my += HEIGHT(c);
+		} else {
+			oy = i - m->nmaster;
+			ox = stairdirection ? n - i - 1 : (stairsamesize ? i - m->nmaster : 0);
+			ow = stairsamesize ? n - m->nmaster - 1 : n - i - 1;
+			oh = stairsamesize ? ow : i - m->nmaster;
+			resize(c,
+			       m->wx + mw + (ox * stairpx),
+			       m->wy + (oy * stairpx),
+			       m->ww - mw - (2 * c->bw) - (ow * stairpx),
+			       m->wh - (2 * c->bw) - (oh * stairpx),
+			       0);
+		}
 	}
 }
 
