@@ -69,8 +69,9 @@ static const Layout layouts[] = {
  	{ "[@]",      spiral },
  	{ "[\\]",      dwindle },
 	{ "###",      gaplessgrid },
-	{ NULL,       NULL },
+	{ "[][]=",    tilewide },
 	{ "HHH",      grid },
+	{ NULL,       NULL },
 };
 
 /* key definitions */
