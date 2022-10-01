@@ -59,6 +59,7 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 #include "gaplessgrid.c"
 #include "fibonacci.c"
 #include "grid.c"
+#include "tcl.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
@@ -69,8 +70,10 @@ static const Layout layouts[] = {
  	{ "[@]",      spiral },
  	{ "[\\]",      dwindle },
 	{ "###",      gaplessgrid },
-	{ NULL,       NULL },
+	{ "[][]=",    tilewide },
 	{ "HHH",      grid },
+	{ "|||",                tcl },
+	{ NULL,       NULL },
 };
 
 /* key definitions */
