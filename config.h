@@ -64,6 +64,7 @@ static const int stairsamesize      = 1;        /* 1 means shrink all the staire
 #include "grid.c"
 #include "tcl.c"
 #include "tatami.c"
+#include "horizgrid.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
@@ -79,6 +80,7 @@ static const Layout layouts[] = {
 	{ "|||",       tcl },
 	{ "|+|",      tatami },
 	{ "[S]",      stairs },
+	{ "###",      horizgrid },
 	{ NULL,       NULL },
 };
 
