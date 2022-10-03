@@ -1,4 +1,2 @@
-https://dwm.suckless.org/patches/statuscmd/
 https://dwm.suckless.org/patches/stackmfact/
 https://dwm.suckless.org/patches/movethrow/
-https://dwm.suckless.org/patches/launcher/
