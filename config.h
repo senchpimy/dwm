@@ -12,7 +12,7 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;     /* 0 means no bar */
 static const int topbar             = 1;     /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrains Mono:size=11", "JoyPixels:pixelsize=11:antialias=true:autohint=true"};
+static const char *fonts[]          = { "JetBrains Mono:size=9", "JoyPixels:pixelsize=11:antialias=true:autohint=true"};
 static const char dmenufont[]       = "JetBrains Mono:size=11";
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
@@ -43,12 +43,11 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class                instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
-	{ "TelegramDesktop",    NULL,     NULL,           0,         1,          0,           0,        -1 },
-	{ "obs",                NULL,     NULL,           0,         1,          0,           0,        -1 },
-	{ "Lutris",             NULL,     NULL,           0,         1,          0,           0,        -1 },
-	{ "St",                 NULL,     NULL,           0,         0,          1,           1,        -1 },
-	{ NULL,                 NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
+	/* class                instance  title           tags mask  isfloating  isterminal  noswallow	isfakefullscreen  monitor */
+	{ "St",                 NULL,     NULL,           0,         0,          1,           1,       		0,           -1 },
+	{ "qutebrowser",        NULL,     NULL,           0,         0,          1,           1,       		1,           -1 },
+	{ "StWidget",           NULL,     NULL,           0,         1,          0,           1,       		0,           -1 },
+	{ NULL,                 NULL,     "Event Tester", 0,         0,          0,           1,       		0,           -1 }, /* xev */
 };
 
 /* layout(s) */
@@ -103,6 +102,8 @@ static const char *termcmd[]  = { "st", NULL };
 /* commands spawned when clicking statusbar, the mouse button pressed is exported as BUTTON */
 static const StatusCmd statuscmds[] = {
 	{ "notify-send Mouse$BUTTON", 1 },
+	{ "sh /home/plof/Documents/Bash/scripts/stWidgetVolume.sh", 2 },	
+	{ "killall stWidget", 3 },
 };
 static const char *statuscmd[] = { "/bin/sh", "-c", NULL, NULL };
 
