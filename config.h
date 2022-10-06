@@ -104,9 +104,12 @@ static const char *slock[]  = { "slock", NULL };
 
 /* commands spawned when clicking statusbar, the mouse button pressed is exported as BUTTON */
 static const StatusCmd statuscmds[] = {
-	{ "notify-send Mouse$BUTTON", 1 },
-	{ "sh /home/plof/Documents/Bash/scripts/stWidgetVolume.sh", 2 },	
-	{ "sh /home/plof/Documents/Bash/scripts/killa.sh", 3 },	
+	//{ "notify-send Mouse$BUTTON", 1 },
+	{ "sh /home/plof/Documents/PythonProjects/xsetroot/stwidget.sh", 1 },
+	{ "sh /home/plof/Documents/PythonProjects/xsetroot/music.sh", 2 },
+	{ "pamixer --allow-boost -i 5 ", 3 },
+	{ "pamixer --allow-boost -d 5 ", 4 },
+	{ "echo null", 5 },
 };
 static const char *statuscmd[] = { "/bin/sh", "-c", NULL, NULL };
 
