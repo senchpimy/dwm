@@ -109,7 +109,8 @@ static const StatusCmd statuscmds[] = {
 	{ "sh /home/plof/Documents/PythonProjects/xsetroot/music.sh", 2 },
 	{ "pamixer --allow-boost -i 5 ", 3 },
 	{ "pamixer --allow-boost -d 5 ", 4 },
-	{ "echo null", 5 },
+	{ "stWidget -z 12 -g 22x9+1040+20 -e sh /home/plof/Documents/PythonProjects/xsetroot/cal.sh", 5 },
+	{ "echo null", 6 },
 };
 static const char *statuscmd[] = { "/bin/sh", "-c", NULL, NULL };
 
