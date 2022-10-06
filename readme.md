@@ -26,4 +26,4 @@ And some more I forgot the name of
 
 What's next?
 
-[ ]Fix status2d and statuscmd dont working properly
+[ ] Fix status2d and statuscmd dont working properly
