@@ -44,10 +44,11 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class                instance  title           tags mask  isfloating  isterminal  noswallow	isfakefullscreen  monitor */
-	{ "St",                 NULL,     NULL,           0,         0,          1,           1,       		0,           -1 },
-	{ "qutebrowser",        NULL,     NULL,           0,         0,          1,           1,       		1,           -1 },
-	{ "StWidget",           NULL,     NULL,           0,         1,          0,           1,       		0,           -1 },
-	{ NULL,                 NULL,     "Event Tester", 0,         0,          0,           1,       		0,           -1 }, /* xev */
+	{ "qutebrowser",        NULL,     NULL,               0,         0,          1,        1,       	1,           -1 },
+	{ "StWidget",           NULL,     NULL,               0,         1,          0,        1,       	0,           -1 },
+	{ NULL,                 NULL,  "Sovl Music player",   0,         1,          0,        1,       	0,           -1 },
+	{ "Audacious",          NULL,      NULL,              0,         1,          0,        1,       	0,           -1 },
+	{ NULL,                 NULL,     "Event Tester",     0,         0,          0,        1,       	0,           -1 }, /* xev */
 };
 
 /* layout(s) */

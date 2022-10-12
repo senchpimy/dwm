@@ -1187,6 +1187,7 @@ enternotify(XEvent *e)
 	m = c ? c->mon : wintomon(ev->window);
 	if (m != selmon) {
 		unfocus(selmon->sel, 1);
+		XWarpPointer(dpy, None, m->barwin, 0, 0, 0, 0, m->mw / 2, m->mh / 2);
 		prevmon = selmon;
 		selmon = m;
 	} else if (!c || c == selmon->sel)
