@@ -28,7 +28,8 @@ static char *colors[][3] = {
 };
 
 static const char *const autostart[] = {
-	"wal", "-R",
+	"wal", "-R",NULL,
+	"sh /home/plof/Documents/PythonProjects/xsetroot/all.sh",
 //	"flameshot", NULL,
 //	"blueman-applet",NULL,
 //	"xcompmgr",NULL,
