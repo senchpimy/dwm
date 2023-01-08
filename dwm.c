@@ -288,6 +288,8 @@ static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void sigchld(int unused);
+static int getdwmblockspid();
+static void sigdwmblocks(const Arg *arg);
 static void spawn(const Arg *arg);
 static Monitor *systraytomon(Monitor *m);
 static void tag(const Arg *arg);
@@ -386,6 +388,9 @@ struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
 /* dwm will keep pid's of processes from autostart array and kill them at quit */
 static pid_t *autostart_pids;
 static size_t autostart_len;
+
+pid_t dwmblockspid = 0;
+static int dwmblockssig;
 
 /* execute command from autostart array */
 static void
@@ -1187,7 +1192,6 @@ enternotify(XEvent *e)
 	m = c ? c->mon : wintomon(ev->window);
 	if (m != selmon) {
 		unfocus(selmon->sel, 1);
-		XWarpPointer(dpy, None, m->barwin, 0, 0, 0, 0, m->mw / 2, m->mh / 2);
 		prevmon = selmon;
 		selmon = m;
 	} else if (!c || c == selmon->sel)
@@ -2322,6 +2326,49 @@ sigchld(int unused)
 
 	}
 }
+void
+sighup(int unused)
+{
+	Arg a = {.i = 1};
+	quit(&a);
+}
+
+void
+sigterm(int unused)
+{
+	Arg a = {.i = 0};
+	quit(&a);
+}
+
+void
+sigdwmblocks(const Arg *arg)
+{
+	union sigval sv;
+	sv.sival_int = 0 | (dwmblockssig << 8) | arg->i;
+	if (!dwmblockspid)
+		if (getdwmblockspid() == -1)
+			return;
+
+	if (sigqueue(dwmblockspid, SIGUSR1, sv) == -1) {
+		if (errno == ESRCH) {
+			if (!getdwmblockspid())
+				sigqueue(dwmblockspid, SIGUSR1, sv);
+		}
+	}
+}
+
+int
+getdwmblockspid()
+{
+	char buf[16];
+	FILE *fp = popen("pidof -s dwmblocks", "r");
+	fgets(buf, sizeof(buf), fp);
+	pid_t pid = strtoul(buf, NULL, 10);
+	pclose(fp);
+	dwmblockspid = pid;
+	return pid != 0 ? 0 : -1;
+}
+
 
 void
 spawn(const Arg *arg)
